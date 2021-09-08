@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.util.ArrayList;
+import javax.swing.JComboBox;
 
 public class ClienteModelDAO {
     // Operaciones CRUD -> CreateReadUpdateDelete
@@ -33,7 +34,7 @@ public class ClienteModelDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return cRegistros;
+        return -1;
     }
 
     // Read - Leer
@@ -72,7 +73,61 @@ public class ClienteModelDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return 0;
+        return -1;
     }
+    
+    
+    // funcion que elimina un cliente dado su ID
+    public int eliminaCliente(int id){// 59
+        Database db = new Database();
+        PreparedStatement ps;
+        String query = "DELETE FROM Cliente WHERE id = ?";
+        try {
+            ps = db.con.prepareStatement(query);
+            ps.setInt(1, id);
+            
+            int eliminados = ps.executeUpdate();
+            
+            return eliminados;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("Error al eliminar");
+        }
+        return -1;
+    }
+    
+    
+     public ArrayList<Integer> ids_clientes() {       
+        try {
+            Database db = new Database();
+            PreparedStatement ps;
+            String query = "SELECT id FROM Cliente";
+            ps = db.con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            
+            ArrayList<Integer> ids = new ArrayList<>();
+            
+            while (rs.next()) {
+               ids.add(rs.getInt("id"));
+            }
+            return ids;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    
+     
+    public void llenaIds(JComboBox combo){
+        ArrayList<Integer> ids = new ArrayList<>();
+        ids = ids_clientes();
+        ids.forEach(id -> { 
+            combo.addItem(id); 
+        });
+    }
+
 
 }

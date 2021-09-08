@@ -12,6 +12,7 @@ public class ClienteModel {
     // Para MVC es recomendable inicalizar las variables
     // en un constructor y dejar uno vacio
     public ClienteModel(int id, String nombre, String apellido, String f_compra, String h_compra, double credito) {
+        this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.f_compra = f_compra;
@@ -27,13 +28,7 @@ public class ClienteModel {
         this.id = id;
     }
 
-//    public void ClienteModel() {
-//        this.nombre = "";
-//        this.apellido = "";
-//        this.f_compra = "";
-//        this.h_compra = "";
-//        this.credito = 0;
-//    }
+
 
     public String getNombre() {
         return nombre;

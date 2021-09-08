@@ -50,18 +50,29 @@ public class ClienteController implements ActionListener {
             ArrayList<ClienteModel> clientes = clienteDAO.listaClientes();
             int columnas = clienteDAO.longitudDeFila(); // 6
             clientes.forEach(cliente -> { 
-//                Object[] fila = new Object[columnas];
-//                fila[0] = cliente.id;
-//                fila[1] = cliente.nombre;
-//                fila[2] = cliente.apellido;
-//                fila[3] = cliente.f_compra;
-//                fila[4] = cliente.h_compra;
-//                fila[5] = cliente.credito;
-//                tabla.addRow(fila);
-                System.out.println(cliente.id);
-            });                                                          
+                Object[] fila = new Object[columnas];
+                fila[0] = cliente.id;
+                fila[1] = cliente.nombre;
+                fila[2] = cliente.apellido;
+                fila[3] = cliente.f_compra;
+                fila[4] = cliente.h_compra;
+                fila[5] = cliente.credito;
+                tabla.addRow(fila);                
+            });        
+            clienteDAO.llenaIds(vistaCliente.jc_ids);
+        }else if(evento.getSource() == vistaCliente.btn_eliminar){
+            int id = Integer.parseInt(String.valueOf(vistaCliente.jc_ids.getSelectedItem()));
+            int eliminados = clienteDAO.eliminaCliente(id);
+            
+            if(eliminados > 0){
+                JOptionPane.showMessageDialog(null, "Se eliminaron: " + eliminados);
+            }else{
+                JOptionPane.showMessageDialog(null, "No entro al try");
+            }
+            
+           
         }
     }
-
+   
 
 }

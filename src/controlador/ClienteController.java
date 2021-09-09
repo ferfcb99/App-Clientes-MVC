@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import vista.VistaClientes;
 
@@ -40,17 +41,21 @@ public class ClienteController implements ActionListener {
     public void actionPerformed(ActionEvent evento) {
         // verificando si se dio click al boton 
         if (evento.getSource() == vistaCliente.btn_registrar) {
-            Utilidades utilidad = new Utilidades();
-            String nombre = vistaCliente.jtf_nombre.getText();
-            String apellido = vistaCliente.jtf_apellido.getText();
-            double credito = Double.parseDouble(vistaCliente.jtf_credito.getText());
+            if (camposLlenosYValidos(vistaCliente.jtf_nombre.getText(), vistaCliente.jtf_apellido.getText(), vistaCliente.jtf_credito.getText())) {
+                Utilidades utilidad = new Utilidades();
+                String nombre = vistaCliente.jtf_nombre.getText();
+                String apellido = vistaCliente.jtf_apellido.getText();
+                double credito = Double.parseDouble(vistaCliente.jtf_credito.getText());
 
-            int registrados = clienteDAO.insertaCliente(nombre, apellido, utilidad.getFecha(), utilidad.getHora(), credito);
+                int registrados = clienteDAO.insertaCliente(nombre, apellido, utilidad.getFecha(), utilidad.getHora(), credito);
 
-            if (registrados > 0) {
-                JOptionPane.showMessageDialog(null, "Registro exitoso, se registraron: " + registrados);
+                if (registrados > 0) {
+                    JOptionPane.showMessageDialog(null, "Registro exitoso, se registraron: " + registrados);
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se hizo ningun registro");
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "No se hizo ningun registro");
+                JOptionPane.showMessageDialog(null, "Debe llenar todos los campos correctamente");
             }
         } else if (evento.getSource() == vistaCliente.btn_mostrar) {
             // aqui se pondra el codigo para mostrar los clientes
@@ -71,22 +76,32 @@ public class ClienteController implements ActionListener {
             clienteDAO.llenaIds(vistaCliente.jc_ids);
         } else if (evento.getSource() == vistaCliente.btn_eliminar) {
             int id = Integer.parseInt(String.valueOf(vistaCliente.jc_ids.getSelectedItem()));
-            int eliminados = clienteDAO.eliminaCliente(id);
 
-            if (eliminados > 0) {
-                JOptionPane.showMessageDialog(null, "Se eliminaron: " + eliminados);
+            if (idLleno(id)) {
+                int eliminados = clienteDAO.eliminaCliente(id);
+
+                if (eliminados > 0) {
+                    JOptionPane.showMessageDialog(null, "Se eliminaron: " + eliminados);
+                } else {
+                    JOptionPane.showMessageDialog(null, "No entro al try");
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "No entro al try");
+                JOptionPane.showMessageDialog(null, "Error:  0. Click en mostrar, 1. Seleccione un id, 2. Click en eliminar, 3. Click en mostrar");
             }
+
         } else if (evento.getSource() == vistaCliente.btn_actualizar) {
 
-            int actualizados = clienteDAO.actualizaCliente(vistaCliente.jtf_nombre.getText(),
-                    vistaCliente.jtf_apellido.getText(), Double.parseDouble(vistaCliente.jtf_credito.getText()), getId());
+            if (camposLlenosYValidos(vistaCliente.jtf_nombre.getText(), vistaCliente.jtf_apellido.getText(), vistaCliente.jtf_credito.getText()) && idLleno(getId())) {
+                int actualizados = clienteDAO.actualizaCliente(vistaCliente.jtf_nombre.getText(),
+                        vistaCliente.jtf_apellido.getText(), Double.parseDouble(vistaCliente.jtf_credito.getText()), getId());
 
-            if (actualizados > -1) {
-                JOptionPane.showMessageDialog(null, "Se actualizaron: " + actualizados);
+                if (actualizados > -1) {
+                    JOptionPane.showMessageDialog(null, "Se actualizaron: " + actualizados);
+                } else {
+                    JOptionPane.showConfirmDialog(null, "No entro al try");
+                }
             } else {
-                JOptionPane.showConfirmDialog(null, "No entro al try");
+                JOptionPane.showMessageDialog(null, "Error:  0. Click en mostrar, 1. Seleccione un id, 2. Click en editar, 3. Edite en los campos, 4. Pulse actualizar");
             }
 
         } else if (evento.getSource() == vistaCliente.btn_editar) {
@@ -97,6 +112,28 @@ public class ClienteController implements ActionListener {
             vistaCliente.jtf_apellido.setText(String.valueOf(datos[1]));
             vistaCliente.jtf_credito.setText(String.valueOf(datos[2]));
         }
+    }
+
+    public boolean camposLlenosYValidos(String nombre, String apellido, String credito) {
+        return (nombre.length() > 0 && apellido.length() > 0 && esDecimal(credito) == true);
+    }
+
+    public boolean esDecimal(String cadenaCredito) {
+        try {
+            double credito = Double.parseDouble(cadenaCredito);
+            return true;
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    // String palabra = "bebe"
+    // palabra.isNumber() // true, false
+
+    // funcion que valida que el id esta lleno
+    public boolean idLleno(int id) {
+        return id > 0;
     }
 
 }

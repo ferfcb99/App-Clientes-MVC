@@ -2,6 +2,7 @@ package principal;
 import Modelo.ClienteModelDAO;
 import vista.VistaClientes;
 import controlador.ClienteController;
+import javax.swing.JFrame;
 
 public class Main {
     public static void main(String[] args) {

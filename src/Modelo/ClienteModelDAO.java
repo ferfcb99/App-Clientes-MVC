@@ -122,11 +122,58 @@ public class ClienteModelDAO {
     
      
     public void llenaIds(JComboBox combo){
-        ArrayList<Integer> ids = new ArrayList<>();
+        ArrayList<Integer> ids = new ArrayList<>();        
+        combo.removeAllItems();
         ids = ids_clientes();
         ids.forEach(id -> { 
             combo.addItem(id); 
         });
+    }
+    
+    public int actualizaCliente(String nombre, String apellido, Double credito, int id){
+        String query = "UPDATE Cliente SET nombre = ?, apellido = ?, credito = ? WHERE id = ?";
+        Database db = new Database();
+        PreparedStatement ps;
+        int actualizados;
+        
+        try {
+            ps = db.con.prepareStatement(query);
+            ps.setString(1, nombre);
+            ps.setString(2, apellido);
+            ps.setDouble(3, credito);
+            ps.setInt(4, id);
+            
+            actualizados = ps.executeUpdate();
+            
+            return actualizados;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return -1;
+    }
+    
+    
+    public Object[] capturaDatos(int id){        
+        try {
+            Database db = new Database();
+            PreparedStatement ps;
+            String query = "SELECT nombre, apellido, credito FROM Cliente WHERE id = ?";
+            ps = db.con.prepareStatement(query);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            Object[] datos = new Object[3]; // 0 1 2
+            while (rs.next()) {
+              datos[0] = rs.getString("nombre");
+              datos[1] = rs.getString("apellido");
+              datos[2] = rs.getDouble("credito"); // numeric(10,2)                   
+            }            
+            return datos;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

@@ -2,13 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Fernando/Documents/NetBeansProjects/CRUD%20CLIENTES%20MVC/src/principal/Prueba.java</file>
-            <file>file:/C:/Users/Fernando/Documents/NetBeansProjects/CRUD%20CLIENTES%20MVC/src/vista/VistaClientes.java</file>
-            <file>file:/C:/Users/Fernando/Documents/NetBeansProjects/CRUD%20CLIENTES%20MVC/src/Modelo/ClienteModelDAO.java</file>
-            <file>file:/C:/Users/Fernando/Documents/NetBeansProjects/CRUD%20CLIENTES%20MVC/src/Modelo/ClienteModel.java</file>
-            <file>file:/C:/Users/Fernando/Documents/NetBeansProjects/CRUD%20CLIENTES%20MVC/src/principal/Main.java</file>
-            <file>file:/C:/Users/Fernando/Documents/NetBeansProjects/CRUD%20CLIENTES%20MVC/src/controlador/ClienteController.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
